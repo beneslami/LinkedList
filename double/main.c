@@ -30,10 +30,11 @@ table_t *init(){
 int tail_add(table_t *table, char *data){
   table_entry_t *tail = table->tail;
   table_entry_t *node = calloc(1, sizeof(table_entry_t));
-  strcpy(node->data, data);
-  strcpy(node->hash, data);
+
   node->next = NULL;
   if(!tail->next && !tail->prev){
+		strcpy(node->data, data);
+	  strcpy(node->hash, data);
     node->prev = tail;
     tail->next = node;
     return 0;
@@ -41,6 +42,8 @@ int tail_add(table_t *table, char *data){
   while(tail->next){
     tail = tail->next;
   }
+	strcpy(node->data, data);
+	strcpy(node->hash, data);
   node->prev = tail;
   tail->next = node;
   table->tail = node;
@@ -55,26 +58,38 @@ int head_add(table_t *table, char *data){
     strcpy(node->hash, data);
     node->next = head;
     node->prev= NULL;
-    table->head = node;
+    head->prev = node;
     return 0;
   }
+
   strcpy(node->data, data);
   strcpy(node->hash, data);
   node->next = head;
   node->prev = NULL;
-  table->head = node;
+  head->prev = node;
+	table->head = node;
   return 0;
 }
 
-void show(table_t *table){
+void head_show(table_t *table){
   table_entry_t *head = table->head;
   while(head){
-    printf("%s\t\t%s\n", head->data, head->hash);
+    printf("%s -> ", head->data);
     head = head->next;
   }
+	printf("NULL\n");
 }
 
-/*table_entry_t *find(table_t *table, char* data){
+void tail_show(table_t *table){
+	table_entry_t *tail = table->tail;
+	while(tail){
+		printf("%s -> ", tail->data);
+		tail = tail->prev;
+	}
+	printf("NULL\n");
+}
+
+table_entry_t *find(table_t *table, char* data){
   table_entry_t *head = table->head;
   while(head){
     if(!strcmp(head->data, data)){
@@ -85,35 +100,39 @@ void show(table_t *table){
     }
   }
   return NULL;
-} */
+}
 
-/*int del(table_t *table, table_entry_t *entry){
+int del(table_t *table, table_entry_t *entry){
   table_entry_t *head = table->head;
-  table_entry_t *temp, *current, *previous;
-  current = head;
-  previous = head;
 
-  if(!head->next){
-    free(head);
-    return 0;
-  }
-  while(current){
-    if(!strcmp(current->data, entry->data)){
-      previous->next = current->next;
-      free(current);
-      return 0;
-    }
-    previous = current;
-    current = current->next;
-  }
-  return 0;
-}*/
+  if(!head->next && !head->prev){
+		if(!strcmp(head->data, entry->data)){
+				free(head);
+				return 0;
+		}
+		else{
+			printf("not found\n");
+			return -1;
+		}
+	}
+	while(head){
+		if(!strcmp(head->data, entry->data)){
+			head->prev->next = head->next;
+			head->next->prev = head->prev;
+			free(head);
+			return 0;
+		}
+		head = head->next;
+	}
+  printf("not found\n");
+  return -1;
+}
 
 /* int insertB4(table_t *table, char* data, table_entry_t *entry) //insert data before entry*/
 
 /* int insertAfter(table_t *table, char* data, table_entry_t *entry) //insert data after entry*/
 
-int main (int argc, char **argv){ 
+int main (int argc, char **argv){
 
   table = init();
   tail_add(table, "ali");
@@ -127,9 +146,11 @@ int main (int argc, char **argv){
   head_add(table, "shahram");
   tail_add(table, "farideh");
 
-  //table_entry_t *node = find(table, "benyamin");
-  // Call any function
-  show(table);
+	head_show(table);
+  table_entry_t *node = find(table, "benyamin");
+  del(table, node);
+	head_show(table);
+	
   free(table);
   return 0;
 }
