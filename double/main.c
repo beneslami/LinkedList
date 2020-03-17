@@ -113,7 +113,7 @@ void show(table_t *table){
 
 /* int insertAfter(table_t *table, char* data, table_entry_t *entry) //insert data after entry*/
 
-int main (int argc, char **argv){
+int main (int argc, char **argv){ 
 
   table = init();
   tail_add(table, "ali");
