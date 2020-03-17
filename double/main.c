@@ -34,8 +34,8 @@ int tail_add(table_t *table, char *data){
   strcpy(node->hash, data);
   node->next = NULL;
   if(!tail->next && !tail->prev){
-    node->prev = table->tail;
-    table->tail->next = node;
+    node->prev = tail;
+    tail->next = node;
     return 0;
   }
   while(tail->next){
@@ -43,6 +43,7 @@ int tail_add(table_t *table, char *data){
   }
   node->prev = tail;
   tail->next = node;
+  table->tail = node;
   return 0;
 }
 
@@ -72,7 +73,8 @@ void show(table_t *table){
     head = head->next;
   }
 }
-table_entry_t *find(table_t *table, char* data){
+
+/*table_entry_t *find(table_t *table, char* data){
   table_entry_t *head = table->head;
   while(head){
     if(!strcmp(head->data, data)){
@@ -83,8 +85,9 @@ table_entry_t *find(table_t *table, char* data){
     }
   }
   return NULL;
-}
-int del(table_t *table, table_entry_t *entry){
+} */
+
+/*int del(table_t *table, table_entry_t *entry){
   table_entry_t *head = table->head;
   table_entry_t *temp, *current, *previous;
   current = head;
@@ -104,26 +107,29 @@ int del(table_t *table, table_entry_t *entry){
     current = current->next;
   }
   return 0;
-}
+}*/
+
+/* int insertB4(table_t *table, char* data, table_entry_t *entry) //insert data before entry*/
+
+/* int insertAfter(table_t *table, char* data, table_entry_t *entry) //insert data after entry*/
 
 int main (int argc, char **argv){
 
   table = init();
   tail_add(table, "ali");
   head_add(table, "reza");
-  //tail_add(table, "mohsen");
-  //add(table, "benyamin");
-  //tail_add(table, "mehrnaz");
+  tail_add(table, "mohsen");
+  head_add(table, "benyamin");
+  tail_add(table, "mehrnaz");
   tail_add(table, "yashan");
   head_add(table, "fatemeh");
-  //tail_add(table, "elnaz");
-  //add(table, "shahram");
-  //tail_add(table, "farideh");
+  tail_add(table, "elnaz");
+  head_add(table, "shahram");
+  tail_add(table, "farideh");
 
   //table_entry_t *node = find(table, "benyamin");
   // Call any function
   show(table);
-
   free(table);
   return 0;
 }
