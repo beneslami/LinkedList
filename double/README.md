@@ -1,2 +1,2 @@
 
-| item1 | <-> | item2 | <-> | item3 | <-> | item4 | -> NULL
+NULL <-> | item1 | <-> | item2 | <-> | item3 | <-> | item4 | -> NULL
