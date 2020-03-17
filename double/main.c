@@ -52,16 +52,16 @@ int head_add(table_t *table, char *data){
   if(!head->next && !head->prev){
     strcpy(node->data, data);
     strcpy(node->hash, data);
-    node->next = NULL;
+    node->next = head;
     node->prev= NULL;
-    table->head->prev = node;
+    table->head = node;
     return 0;
   }
   strcpy(node->data, data);
   strcpy(node->hash, data);
   node->next = head;
   node->prev = NULL;
-  head->prev = node;
+  table->head = node;
   return 0;
 }
 
@@ -109,12 +109,12 @@ int del(table_t *table, table_entry_t *entry){
 int main (int argc, char **argv){
 
   table = init();
-  //tail_add(table, "ali");
+  tail_add(table, "ali");
   head_add(table, "reza");
   //tail_add(table, "mohsen");
   //add(table, "benyamin");
   //tail_add(table, "mehrnaz");
-  //tail_add(table, "yashan");
+  tail_add(table, "yashan");
   head_add(table, "fatemeh");
   //tail_add(table, "elnaz");
   //add(table, "shahram");
