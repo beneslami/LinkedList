@@ -128,9 +128,43 @@ int del(table_t *table, table_entry_t *entry){
   return -1;
 }
 
-/* int insertB4(table_t *table, char* data, table_entry_t *entry) //insert data before entry*/
+int insertB4(table_t *table, char* data, table_entry_t *entry){ //insert data before entry
+	table_entry_t *head = table->head;
+	table_entry_t *node = calloc(1, sizeof(table_entry_t));
+	while(head){
+		if(!strcmp(head->data, entry->data)){
+			strcpy(node->data, data);
+			strcpy(node->hash, data);
+			head->prev->next = node;
+			node->prev = head->prev;
+			node->next = head;
+			head->prev = node;
+			return 0;
+		}
+		head = head->next;
+	}
+	head_add(table, data);
+	return 0;
+}
 
-/* int insertAfter(table_t *table, char* data, table_entry_t *entry) //insert data after entry*/
+int insertAfter(table_t *table, char* data, table_entry_t *entry) {//insert data after entry
+	table_entry_t *head = table->head;
+	table_entry_t *node = calloc(1, sizeof(table_entry_t));
+	while(head){
+		if(!strcmp(head->data, entry->data)){
+			strcpy(node->data, data);
+			strcpy(node->hash, data);
+			head->next->prev = node;
+			node->next = head->next;
+			head->next = node;
+			node->prev = head;
+			return 0;
+		}
+		head = head->next;
+	}
+	tail_add(table, data);
+	return 0;
+}
 
 int main (int argc, char **argv){
 
@@ -148,9 +182,9 @@ int main (int argc, char **argv){
 
 	head_show(table);
   table_entry_t *node = find(table, "benyamin");
-  del(table, node);
+  insertAfter(table, "eslami", node);
 	head_show(table);
-	
+
   free(table);
   return 0;
 }
