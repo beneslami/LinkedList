@@ -64,7 +64,7 @@ void head_show(table_t *table){
   }
   printf("\n");
 }
-/*
+
 void tail_show(table_t *table){
 	table_entry_t *tail = table->tail;
 	while(tail){
@@ -75,9 +75,9 @@ void tail_show(table_t *table){
       break;
     }
 	}
-	printf("NULL\n");
+  printf("\n");
 }
-
+/*
 table_entry_t *find(table_t *table, char* data){
   table_entry_t *head = table->head;
   while(head){
@@ -177,7 +177,7 @@ int main (int argc, char **argv){
   add(table, "shahram");
   add(table, "farideh");
 
-	head_show(table);
+	tail_show(table);
   //table_entry_t *node = find(table, "benyamin");
   //insertAfter(table, "eslami", node);
 	//head_show(table);
